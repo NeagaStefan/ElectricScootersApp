@@ -42,7 +42,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> showAllCustomers() {
-        return customerRepo.findAllCustomers().stream().map(customer -> modelMapper.map(customer, CustomerDto.class)).collect(Collectors.toList());
+
+        return convertListToDto(customerRepo.findAllCustomers());
     }
 
     @Override
@@ -198,6 +199,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     private Customer convertToEntity(CustomerDto customerDto) {
         return (modelMapper.map(customerDto, Customer.class));
+    }
+
+    private List<CustomerDto> convertListToDto(List<Customer> customers){
+        return customers.stream().map(customer -> modelMapper.map(customer, CustomerDto.class)).collect(Collectors.toList());
     }
 
     public static int getDateDiff(Timestamp startDate, Timestamp stopDate) {

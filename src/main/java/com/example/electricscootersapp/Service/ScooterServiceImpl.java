@@ -1,9 +1,6 @@
 package com.example.electricscootersapp.Service;
 
-import com.example.electricscootersapp.Entity.LocationEnum;
-import com.example.electricscootersapp.Entity.Scooter;
-import com.example.electricscootersapp.Entity.ScooterDto;
-import com.example.electricscootersapp.Entity.StatusEnum;
+import com.example.electricscootersapp.Entity.*;
 import com.example.electricscootersapp.Error.LocationNotFoundException;
 import com.example.electricscootersapp.Error.StatusNotFoundException;
 import com.example.electricscootersapp.Repository.ScooterRepo;
@@ -29,12 +26,12 @@ public class ScooterServiceImpl implements ScooterService {
 
     @Override
     public List<ScooterDto> showAllScooters() {
-        return scooterRepo.showAllScooters().stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
+        return convertListToDto(scooterRepo.showAllScooters());
     }
 
     @Override
     public List<ScooterDto> showAllScootersAdmin() {
-        return scooterRepo.showAllScootersAdmin().stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
+        return convertListToDto(scooterRepo.showAllScootersAdmin());
     }
 
     @Override
@@ -78,17 +75,17 @@ public class ScooterServiceImpl implements ScooterService {
     @Override
     public List<ScooterDto> showScootersByStatus(String status) {
         verifyStatus(status);
-        return scooterRepo.showScootersByStatus(status).stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
+        return convertListToDto(scooterRepo.showScootersByStatus(status));
     }
 
     @Override
     public List<ScooterDto> showScootersByPosition(String position) {
-        return scooterRepo.showScootersByPosition(position).stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
+        return convertListToDto(scooterRepo.showScootersByPosition(position));
     }
 
     @Override
     public List<ScooterDto> showScootersByBattery(Integer battery) {
-        return scooterRepo.showScootersByBattery(battery).stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
+        return convertListToDto(scooterRepo.showScootersByBattery(battery));
     }
 
     @Override
@@ -118,8 +115,8 @@ public class ScooterServiceImpl implements ScooterService {
     }
 
 
-    private ScooterDto convertToDto(Scooter scooter) {
-        return (modelMapper.map(scooter, ScooterDto.class));
+    private List<ScooterDto> convertListToDto(List<Scooter> scooters){
+        return scooters.stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
     }
     private Scooter convertToEntity(ScooterDto scooterDto) {
         return (modelMapper.map(scooterDto,Scooter.class));
