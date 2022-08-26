@@ -14,7 +14,10 @@ public enum LocationEnum {
     SCHEI("schei"),
     TRIAJ("triaj"),
     TRACTORUL("tractorul"),
-    VALEA("valea");
+    VALEA("valea"),
+    CHARGING("charging"),
+    DEPOSIT("deposit");
+
 
     private final String val;
 

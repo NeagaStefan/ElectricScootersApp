@@ -21,4 +21,7 @@ public interface ScooterService {
     List<ScooterDto> showScootersByBattery(Integer battery);
 
     void updateStatus(Long scooterId, String status);
+
+    List<ScooterDto> showAllScootersAdmin();
+
 }

@@ -8,11 +8,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface ScooterRepo extends JpaRepository<Scooter,Long> {
-    @Query("select s from Scooter s order by s.scooterId")
+    @Query("select s from Scooter s where s.status='Available' or s.status='available' order by s.scooterId")
     List<Scooter> showAllScooters();
 
    @Transactional
@@ -39,4 +40,7 @@ public interface ScooterRepo extends JpaRepository<Scooter,Long> {
     @Modifying
     @Query("update Scooter  s set s.position =?2 where s.scooterId=?1")
     void updatePosition(Long scooterId, String newLocation);
+
+    @Query("select s from Scooter s where s.status=:status")
+    List<Scooter> showAllScootersAdmin();
 }

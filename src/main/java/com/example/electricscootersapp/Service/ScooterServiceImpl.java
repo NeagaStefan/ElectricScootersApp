@@ -25,6 +25,11 @@ public class ScooterServiceImpl implements ScooterService {
     public List<ScooterDto> showAllScooters() {
         return scooterRepo.showAllScooters().stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
     }
+    @Override
+    public List<ScooterDto> showAllScootersAdmin() {
+        return scooterRepo.showAllScootersAdmin().stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
+    }
+
 
     @Override
     public Scooter saveScooter(ScooterDto scooterDto) {
@@ -82,6 +87,7 @@ public class ScooterServiceImpl implements ScooterService {
 
 
     }
+
 
     private ScooterDto convertToDto(Scooter scooter) {
         return (modelMapper.map(scooter, ScooterDto.class));
