@@ -3,7 +3,9 @@ package com.example.electricscootersapp.Service;
 import com.example.electricscootersapp.Entity.LocationEnum;
 import com.example.electricscootersapp.Entity.Scooter;
 import com.example.electricscootersapp.Entity.ScooterDto;
+import com.example.electricscootersapp.Entity.StatusEnum;
 import com.example.electricscootersapp.Error.LocationNotFoundException;
+import com.example.electricscootersapp.Error.StatusNotFoundException;
 import com.example.electricscootersapp.Repository.ScooterRepo;
 import org.apache.commons.lang3.EnumUtils;
 import org.modelmapper.ModelMapper;
@@ -24,19 +26,21 @@ public class ScooterServiceImpl implements ScooterService {
         this.scooterRepo =scooterRepo;
         this.modelMapper = modelMapper;
     }
+
     @Override
     public List<ScooterDto> showAllScooters() {
         return scooterRepo.showAllScooters().stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
     }
+
     @Override
     public List<ScooterDto> showAllScootersAdmin() {
         return scooterRepo.showAllScootersAdmin().stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
     }
 
-
     @Override
     public Scooter saveScooter(ScooterDto scooterDto) {
         Scooter scooterResponse = convertToEntity(scooterDto);
+        verifyStatus(scooterResponse.getStatus());
         return scooterRepo.save(scooterResponse);
     }
 
@@ -44,6 +48,8 @@ public class ScooterServiceImpl implements ScooterService {
     public Scooter updateScooter(Long scooterId, ScooterDto scooterDto) {
         Scooter scooterRequest = convertToEntity(scooterDto);
         Scooter scooterDb= scooterRepo.findById(scooterId).get();
+        verifyStatus(scooterRequest.getStatus());
+
         if(Objects.nonNull(scooterRequest.getScooterModel())&&!"".equalsIgnoreCase(scooterRequest.getScooterModel())){
             scooterDb.setScooterModel(scooterRequest.getScooterModel());
         }
@@ -71,6 +77,7 @@ public class ScooterServiceImpl implements ScooterService {
 
     @Override
     public List<ScooterDto> showScootersByStatus(String status) {
+        verifyStatus(status);
         return scooterRepo.showScootersByStatus(status).stream().map(scooter -> modelMapper.map(scooter, ScooterDto.class)).collect(Collectors.toList());
     }
 
@@ -86,11 +93,12 @@ public class ScooterServiceImpl implements ScooterService {
 
     @Override
     public void updateStatusAndPosition(Long scooterId, String status, String location) {
+        verifyStatus(status);
         String newLocation;
         if (EnumUtils.isValidEnumIgnoreCase(LocationEnum.class, location)) {
             newLocation = location;
         } else {
-            throw new LocationNotFoundException("The location is not permitted, look to leave the scooter in permitted areas");
+            throw new StatusNotFoundException("The status is incorrect, try again");
         }
         scooterRepo.updateStatusAndPosition(scooterId,status,newLocation);
 
@@ -100,6 +108,13 @@ public class ScooterServiceImpl implements ScooterService {
     @Override
     public void updateStatus(Long scooterId, String status) {
         scooterRepo.updateStatus(scooterId,status);
+    }
+    private void verifyStatus(String status){
+        if(EnumUtils.isValidEnumIgnoreCase(StatusEnum.class, status)){
+
+        }else{
+            throw new LocationNotFoundException("The location is not permitted, look to leave the scooter in permitted areas");
+        }
     }
 
 

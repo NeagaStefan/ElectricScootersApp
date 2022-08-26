@@ -35,4 +35,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<String> RentalAlreadyStartedException(RentalAlreadyStartedException exception, WebRequest request){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+    @ExceptionHandler
+    public ResponseEntity<String> StatusNotFoundException(StatusNotFoundException exception, WebRequest request){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
 }
