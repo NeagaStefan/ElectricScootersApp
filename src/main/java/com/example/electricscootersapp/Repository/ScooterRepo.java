@@ -48,4 +48,7 @@ public interface ScooterRepo extends JpaRepository<Scooter,Long> {
 
     @Query("select s from Scooter s where s.status=:status")
     List<Scooter> showAllScootersAdmin();
+    @Query("select s from Scooter s where s.status='Available' or s.status='available' order by s.scooterId")
+    List<Scooter> showAllAvailableScooters();
+
 }

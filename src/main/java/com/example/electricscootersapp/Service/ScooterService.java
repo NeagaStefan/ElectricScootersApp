@@ -26,4 +26,5 @@ public interface ScooterService {
 
     List<ScooterDto> showAllScootersAdmin();
 
+    List<ScooterDto> showAllAvailableScooters();
 }

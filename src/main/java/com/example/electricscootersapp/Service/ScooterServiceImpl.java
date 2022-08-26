@@ -35,6 +35,11 @@ public class ScooterServiceImpl implements ScooterService {
     }
 
     @Override
+    public List<ScooterDto> showAllAvailableScooters() {
+        return convertListToDto(scooterRepo.showAllAvailableScooters());
+    }
+
+    @Override
     public Scooter saveScooter(ScooterDto scooterDto) {
         Scooter scooterResponse = convertToEntity(scooterDto);
         verifyStatus(scooterResponse.getStatus());

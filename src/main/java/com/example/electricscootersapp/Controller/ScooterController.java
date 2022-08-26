@@ -19,8 +19,8 @@ public class ScooterController {
     }
     //Shows all scooters available for customers
     @GetMapping("/scooters")
-    public List<ScooterDto> showAllScooters(){
-        return scooterService.showAllScooters();
+    public List<ScooterDto> showAllAvaiableScooters(){
+        return scooterService.showAllAvailableScooters();
     }
     //Show all scooters in the company
 
