@@ -141,7 +141,7 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (NoSuchElementException ex) {
             throw new ScooterNotFoundException("The scooter does not exist");
         }
-        if (scooterRepo.findById(scooterId).get().getStatus().equalsIgnoreCase("available")) {
+        if (scooterRepo.findById(scooterId).get().getStatus().equalsIgnoreCase("Available")) {
             return "The scooter is available";
         } else {
             throw new ScooterNotFoundException("The scooter is already taken");
