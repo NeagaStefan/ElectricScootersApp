@@ -1,5 +1,6 @@
 package com.example.electricscootersapp.Service;
 
+import com.example.electricscootersapp.Entity.History;
 import com.example.electricscootersapp.Entity.HistoryDto;
 import com.example.electricscootersapp.Repository.HistoryRepo;
 import org.modelmapper.ModelMapper;
@@ -28,12 +29,16 @@ public class HistoryServiceImpl implements  HistoryService {
 
     @Override
     public List<HistoryDto> showAllRecords() {
-        return historyRepo.showAllRecords().stream().map(history -> modelMapper.map(history,HistoryDto.class)).collect(Collectors.toList());
+        return convertListToDto(historyRepo.showAllRecords());
 
     }
 
     @Override
     public List<HistoryDto> showRecordsBetweenDates(Timestamp startDate, Timestamp endDate) {
-        return historyRepo.showRecordsBetweenDates(startDate,endDate).stream().map(history -> modelMapper.map(history,HistoryDto.class)).collect(Collectors.toList());
+        return convertListToDto(historyRepo.showRecordsBetweenDates(startDate,endDate));
+    }
+
+    private List<HistoryDto> convertListToDto(List<History> histories){
+        return histories.stream().map(history -> modelMapper.map(history, HistoryDto.class)).collect(Collectors.toList());
     }
 }
