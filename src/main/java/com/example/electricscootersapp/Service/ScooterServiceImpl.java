@@ -1,8 +1,11 @@
 package com.example.electricscootersapp.Service;
 
+import com.example.electricscootersapp.Entity.LocationEnum;
 import com.example.electricscootersapp.Entity.Scooter;
 import com.example.electricscootersapp.Entity.ScooterDto;
+import com.example.electricscootersapp.Error.LocationNotFoundException;
 import com.example.electricscootersapp.Repository.ScooterRepo;
+import org.apache.commons.lang3.EnumUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,10 +85,21 @@ public class ScooterServiceImpl implements ScooterService {
     }
 
     @Override
+    public void updateStatusAndPosition(Long scooterId, String status, String location) {
+        String newLocation;
+        if (EnumUtils.isValidEnumIgnoreCase(LocationEnum.class, location)) {
+            newLocation = location;
+        } else {
+            throw new LocationNotFoundException("The location is not permitted, look to leave the scooter in permitted areas");
+        }
+        scooterRepo.updateStatusAndPosition(scooterId,status,newLocation);
+
+
+    }
+
+    @Override
     public void updateStatus(Long scooterId, String status) {
         scooterRepo.updateStatus(scooterId,status);
-
-
     }
 
 

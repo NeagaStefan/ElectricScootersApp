@@ -61,10 +61,10 @@ public class ScooterController {
     }
 
     //Changing the status of the scooter
-    //ToDo change the position too
+
     @PutMapping("/scooters/")
-    public void updateStatus(@RequestParam ("scooterId") Long scooterId,@RequestParam("status") String status){
-        scooterService.updateStatus(scooterId,status);
+    public void updateStatus(@RequestParam ("scooterId") Long scooterId,@RequestParam("status") String status,@RequestParam("location") String location){
+        scooterService.updateStatusAndPosition(scooterId,status, location);
     }
 
     //Soft deletes a scooter

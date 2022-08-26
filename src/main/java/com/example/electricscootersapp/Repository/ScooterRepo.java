@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -35,6 +34,12 @@ public interface ScooterRepo extends JpaRepository<Scooter,Long> {
     @Modifying
     @Query("update Scooter  s set s.status=:status where s.scooterId=:scooterId")
     void updateStatus(@Param("scooterId") Long scooterId,@Param("status") String status);
+
+    @Transactional
+    @Modifying
+    @Query("update Scooter  s set s.status=:status,s.position=:newLocation where s.scooterId=:scooterId")
+    void updateStatusAndPosition(@Param("scooterId") Long scooterId,@Param("status") String status,@Param("newLocation") String newLocation);
+
 
     @Transactional
     @Modifying

@@ -20,6 +20,8 @@ public interface ScooterService {
 
     List<ScooterDto> showScootersByBattery(Integer battery);
 
+    void updateStatusAndPosition(Long scooterId, String status, String location);
+
     void updateStatus(Long scooterId, String status);
 
     List<ScooterDto> showAllScootersAdmin();
